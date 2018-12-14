@@ -1,0 +1,91 @@
+<div class="container-fluid" style="text-align:center">
+  <div class="row">
+    <div class="col-lg-3 col-md-3 form-group">
+      <label>
+        <b>All LOBs</b>
+      </label>
+      <select class="form-control" (change)="lobChange($event)">
+        <option>Select</option>
+        <option *ngFor="let c of lobs" [value]="c.lob">{{ c.lob }}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-3 col-md-3 form-group">
+      <label>
+        <b>All Projects</b>
+      </label>
+      <select class="form-control" (change)="projectChange($event)" [disabled]="(selectedValues[0] == null)">
+        <option>Select</option>
+        <option *ngFor='let state of projects' [value]="state.name">{{selectedValues[0]}} -> {{ state.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-3 col-md-3 form-group">
+      <label>
+        <b>All Releases</b>
+      </label>
+      <select class="form-control" (change)="releaseChange($event)" [disabled]="(selectedValues[1] == null)">
+        <option>Select</option>
+        <option *ngFor='let release of releases' [value]="release.name">{{selectedValues[0]}} -> {{selectedValues[1]}} -> {{ release.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-3 col-md-3 form-group">
+      <label>
+        <b>All Applications</b>
+      </label>
+      <select class="form-control" [disabled]="(selectedValues[2] == null)">
+        <option>Select</option>
+        <option *ngFor='let application of applications' [value]="application.name">{{selectedValues[0]}} -> {{selectedValues[1]}} -> {{selectedValues[2]}} -> {{ application.name }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-3 form-group">
+      <label>
+        <b>Test Validation</b>
+      </label>
+      <select class="form-control">
+        <option value="0" selected="selected">Select Option</option>
+        <option value="1">API Test</option>
+        <option value="2">UI Test</option>
+      </select>
+    </div>
+    <div class="col-lg-3 col-md-3 form-group">
+      <label>
+        <b>Test Type</b>
+      </label>
+      <select class="form-control">
+        <option value="0" selected="selected">Select Option</option>
+        <option value="1">Smoke Test</option>
+        <option value="2">Regression Test</option>
+        <option value="3">Progression Test</option>
+      </select>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="col-lg-6 col-md-6" style="float:left">
+        <p>Total # Smoke : 0</p>
+        <p>Total UI Validations : 0</p>
+      </div>
+      <div class="col-lg-6 col-md-6" style="float:left;padding: 15px 0px;">
+        <button type="button" class="btn btn-primary" (click)="(gridExecution = true)">Execute</button>
+
+        <button type="button" class="btn btn-default" (click)="(gridExecution = false)">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="gridExecution">
+    <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true" (pageChange)="pageChange($event)" [height]="500"
+      [selectable]="true">
+      <kendo-grid-checkbox-column showSelectAll="true"></kendo-grid-checkbox-column>
+      <kendo-grid-column field="ProductName" title="Product Name" [width]="300"></kendo-grid-column>
+      <kendo-grid-column field="UnitsInStock" title="Units In Stock"></kendo-grid-column>
+      <kendo-grid-column field="UnitsOnOrder" title="Units On Order"></kendo-grid-column>
+      <kendo-grid-column field="ReorderLevel" title="Reorder Level"></kendo-grid-column>
+    </kendo-grid>
+
+  </div>
+</div>
+
+<router-outlet></router-outlet>
